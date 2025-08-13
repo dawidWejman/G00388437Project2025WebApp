@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Grades Page</title>
+</head>
+<body>
+  <h1>Grades</h1>
+
+  <table border="1" cellpadding="5">
+    <tr>
+      <th>Student</th>
+      <th>Module</th>
+      <th>Grade</th>
+    </tr>
+    <% students.forEach(student => { %>
+      <% if (student.grades.length > 0) { %>
+        <% student.grades.forEach(grade => { %>
+          <tr>
+            <td><%= student.name %></td>
+            <td><%= grade.module %></td>
+            <td><%= grade.grade %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td><%= student.name %></td>
+          <td colspan="2">No modules</td>
+        </tr>
+      <% } %>
+    <% }) %>
+  </table>
+
+  <br>
+  <a href="/"><button>Home Page</button></a>
+</body>
+</html>

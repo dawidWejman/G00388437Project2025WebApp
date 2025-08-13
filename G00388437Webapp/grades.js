@@ -5,42 +5,54 @@ const mysql = require('mysql2');
 // Database connection
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: '',      // your password
-  database: 'your_db_name'
+  user: 'root',      
+  password: 'root',      
+  database: 'proj2024mysql' 
 });
 
-// Get Grades Page
+// Connect to database
+db.connect(err => {
+  if (err) {
+    console.error('Database connection failed:', err);
+  } else {
+    console.log('Connected to database');
+  }
+});
+
+// Grades page
 router.get('/', (req, res) => {
   const query = `
     SELECT s.sid, s.name AS student_name, m.name AS module_name, g.grade
     FROM student s
-    LEFT JOIN grades g ON s.sid = g.sid
+    LEFT JOIN grade g ON s.sid = g.sid
     LEFT JOIN module m ON g.mid = m.mid
     ORDER BY s.name ASC, g.grade ASC
   `;
 
   db.query(query, (err, results) => {
     if (err) {
-      console.error(err);
-      return res.send('Database error');
+      console.error('Database query error:', err);
+      return res.send('Database query error. Check server logs.');
     }
 
-    // Transform data into nested structure
-    const students = [];
-    const map = new Map();
-
+   
+    const students = {};
     results.forEach(row => {
-      if (!map.has(row.sid)) {
-        map.set(row.sid, { name: row.student_name, modules: [] });
-        students.push(map.get(row.sid));
+      if (!students[row.sid]) {
+        students[row.sid] = {
+          name: row.student_name,
+          grades: []
+        };
       }
       if (row.module_name) {
-        map.get(row.sid).modules.push({ name: row.module_name, grade: row.grade });
+        students[row.sid].grades.push({
+          module: row.module_name,
+          grade: row.grade
+        });
       }
     });
 
-    res.render('grades', { students });
+    res.render('grades', { students: Object.values(students) });
   });
 });
 

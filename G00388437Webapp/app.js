@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 const port = 3004;
 
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -16,11 +16,9 @@ app.get('/', (req, res) => {
 
 
 app.use('/students', require('./student'));
-//app.use('/grades', require('./grades'));
+app.use('/grades', require('./grades'));
 //app.use('/lecturers', require('./lecturers'));
-app.get('/test', (req, res) => {
-    res.render('students', { students: [], editStudent: null });
-});
+
 
 // Start server
 app.listen(port, () => {

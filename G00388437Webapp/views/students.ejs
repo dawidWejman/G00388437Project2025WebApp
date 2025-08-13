@@ -14,17 +14,23 @@
       <th>Age</th>
       <th>Actions</th>
     </tr>
-    <% students.forEach(student => { %>
+    <% if (students && students.length > 0) { %>
+      <% students.forEach(student => { %>
+        <tr>
+          <td><%= student.sid %></td>
+          <td><%= student.name %></td>
+          <td><%= student.age %></td>
+          <td>
+            <a href="/students/edit/<%= student.sid %>">Edit</a> |
+            <a href="/students/delete/<%= student.sid %>" onclick="return confirm('Delete this student?')">Delete</a>
+          </td>
+        </tr>
+      <% }) %>
+    <% } else { %>
       <tr>
-        <td><%= student.sid %></td>
-        <td><%= student.name %></td>
-        <td><%= student.age %></td>
-        <td>
-          <a href="/students/edit/<%= student.sid %>">Edit</a> |
-          <a href="/students/delete/<%= student.sid %>" onclick="return confirm('Delete this student?')">Delete</a>
-        </td>
+        <td colspan="4">No students found.</td>
       </tr>
-    <% }) %>
+    <% } %>
   </table>
 
   <hr>
@@ -38,15 +44,17 @@
       <button type="submit">Update</button>
     </form>
   <% } else { %>
-    <h2>Add New Student</h2>
-    <form action="/students/add" method="POST">
-      <label>Name: <input type="text" name="name" required></label><br><br>
-      <label>Age: <input type="number" name="age" required></label><br><br>
-      <button type="submit">Add Student</button>
-    </form>
+   <h2>Add New Student</h2>
+<form action="/students/add" method="POST">
+  <label>SID: <input type="number" name="sid" required></label><br><br>
+  <label>Name: <input type="text" name="name" required></label><br><br>
+  <label>Age: <input type="number" name="age" required></label><br><br>
+  <button type="submit">Add Student</button>
+</form>
   <% } %>
 
   <br>
   <a href="/"><button>Home Page</button></a>
+
 </body>
 </html>
