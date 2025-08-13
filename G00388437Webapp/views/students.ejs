@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Students Page</title>
+</head>
+<body>
+  <h1>Students</h1>
+
+  <!-- Student List -->
+  <table border="1" cellpadding="5">
+    <tr>
+      <th>SID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Actions</th>
+    </tr>
+    <% students.forEach(student => { %>
+      <tr>
+        <td><%= student.sid %></td>
+        <td><%= student.name %></td>
+        <td><%= student.age %></td>
+        <td>
+          <a href="/students/edit/<%= student.sid %>">Edit</a> |
+          <a href="/students/delete/<%= student.sid %>" onclick="return confirm('Delete this student?')">Delete</a>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <hr>
+
+  <!-- Add or Edit Form -->
+  <% if (editStudent) { %>
+    <h2>Edit Student</h2>
+    <form action="/students/update/<%= editStudent.sid %>" method="POST">
+      <label>Name: <input type="text" name="name" value="<%= editStudent.name %>" required></label><br><br>
+      <label>Age: <input type="number" name="age" value="<%= editStudent.age %>" required></label><br><br>
+      <button type="submit">Update</button>
+    </form>
+  <% } else { %>
+    <h2>Add New Student</h2>
+    <form action="/students/add" method="POST">
+      <label>Name: <input type="text" name="name" required></label><br><br>
+      <label>Age: <input type="number" name="age" required></label><br><br>
+      <button type="submit">Add Student</button>
+    </form>
+  <% } %>
+
+  <br>
+  <a href="/"><button>Home Page</button></a>
+</body>
+</html>
