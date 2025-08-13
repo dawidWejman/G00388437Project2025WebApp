@@ -17,7 +17,8 @@ app.get('/', (req, res) => {
 
 app.use('/students', require('./student'));
 app.use('/grades', require('./grades'));
-//app.use('/lecturers', require('./lecturers'));
+const lecturersRouter = require('./lecturers');
+app.use('/lecturers', lecturersRouter);
 
 
 // Start server

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lecturers</title>
+</head>
+<body>
+    <h1>Lecturers</h1>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+        <% if (lecturers.length > 0) { %>
+            <% lecturers.forEach(l => { %>
+                <tr>
+                    <td><%= l._id %></td>
+                    <td><%= l.name %></td>
+                    <td><%= l.did %></td>
+                    <td>
+                        <a href="/lecturers/delete/<%= l._id %>" onclick="return confirm('Delete this lecturer?')">Delete</a>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } else { %>
+            <tr>
+                <td colspan="4">No lecturers found</td>
+            </tr>
+        <% } %>
+    </table>
+
+    <br>
+    <a href="/"><button>Home Page</button></a>
+</body>
+</html>
