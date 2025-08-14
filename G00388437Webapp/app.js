@@ -21,7 +21,7 @@ const lecturersRouter = require('./lecturers');
 app.use('/lecturers', lecturersRouter);
 
 
-// Start server
+// Starting server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
